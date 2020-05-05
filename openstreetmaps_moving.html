@@ -20,15 +20,23 @@
     html,
     body,
     #map {
-      height: 100%;
+      height: 95%;
       width: 100vw;
+    }
+
+    .stop-button {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.5rem;
     }
   </style>
 </head>
 
 <body>
   <div id="map" style="width: 100%; height: 100%;"></div>
+  <button class="stop-button" onclick="stopTracking()">Stop Tracking</button>
   <script>
+    alert("Start location tracking?");
     var map = L.map('map').setView([28.7041, 77.1025], 10);
 
     L.tileLayer(
@@ -42,10 +50,11 @@
         zoomOffset: -1
       }).addTo(map);
     locationNumber = 1;
+    var tracking = null;
 
     function onLocationFound(e) {
       // Call the function after every 5 seconds(5000 miliseconds).
-      setInterval(function () {
+      tracking = setInterval(function () {
         L.marker(e.latlng).addTo(map)
           .bindPopup("Location #" + locationNumber++).openPopup();
         e.latlng.lat += 0.0002;
@@ -56,6 +65,15 @@
     function onLocationError(e) {
       alert(e.message);
     }
+
+    function stopTracking() {
+      if (tracking !== null) {
+        clearInterval(tracking);
+        tracking = null;
+        alert("Location tracking stopped");
+      }
+    }
+
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
     map.locate({
