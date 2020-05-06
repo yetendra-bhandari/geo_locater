@@ -35,6 +35,7 @@
 <body>
   <div id="map" style="width: 100%; height: 100%;"></div>
   <button class="stop-button" onclick="stopTracking()">Stop Tracking</button>
+  <div id="location-history"></div>
   <script>
     alert("Start location tracking?");
     var map = L.map('map').setView([28.7041, 77.1025], 10);
@@ -51,19 +52,35 @@
       }).addTo(map);
     var locationNumber = 1;
     var tracking = null;
+    var locationHistory = [];
 
     function onLocationFound(e) {
       // Call the function after every 5 seconds(5000 miliseconds).
       tracking = setInterval(function () {
+        locationHistory.push("Location #" + locationNumber + " => " + "Latitude: " + e.latlng.lat +
+          ", Longitude: " +
+          e.latlng.lng);
         L.marker(e.latlng).addTo(map)
           .bindPopup("Location #" + locationNumber++).openPopup();
         e.latlng.lat += 0.0002;
         e.latlng.lng += 0.0002;
-      }, 5000);
+      }, 2000);
     }
 
     function onLocationError(e) {
       alert(e.message);
+    }
+
+    function generateLocationTrail() {
+      var locationHistory = document.getElementById("location-history");
+      var heading = document.createElement("h1");
+      heading.innerText = "Location Trail";
+      var list = document.createElement("ul");
+      for (location in locationHistory) {
+        item = document.createElement("li");
+        item.innerText = location;
+        list.appendChild(item);
+      }
     }
 
     function stopTracking() {
@@ -71,6 +88,7 @@
         clearInterval(tracking);
         tracking = null;
         alert("Location tracking stopped");
+        generateLocationTrail();
       }
     }
 
