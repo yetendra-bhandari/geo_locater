@@ -71,24 +71,22 @@
       alert(e.message);
     }
 
-    function generateLocationTrail() {
-      var locationHistory = document.getElementById("location-history");
-      var heading = document.createElement("h1");
-      heading.innerText = "Location Trail";
-      var list = document.createElement("ul");
-      for (location in locationHistory) {
-        item = document.createElement("li");
-        item.innerText = location;
-        list.appendChild(item);
-      }
-    }
-
     function stopTracking() {
       if (tracking !== null) {
         clearInterval(tracking);
         tracking = null;
         alert("Location tracking stopped");
-        generateLocationTrail();
+        var locationHistory = document.getElementById("location-history");
+        var heading = document.createElement("h1");
+        heading.innerText = "Location Trail";
+        var list = document.createElement("ul");
+        for (location in locationHistory) {
+          item = document.createElement("li");
+          item.innerText = location;
+          list.appendChild(item);
+        }
+        locationHistory.appendChild(heading);
+        locationHistory.appendChild(list);
       }
     }
 
