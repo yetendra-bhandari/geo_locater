@@ -73,8 +73,8 @@
 
     function stopTracking() {
       if (tracking !== null) {
-        clearInterval(tracking);
         tracking = null;
+        clearInterval(tracking);
         alert("Location tracking stopped");
         var locationHistory = document.getElementById("location-history");
         var heading = document.createElement("h1");
@@ -87,6 +87,7 @@
         }
         locationHistory.appendChild(heading);
         locationHistory.appendChild(list);
+
       }
     }
 
