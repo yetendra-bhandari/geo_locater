@@ -38,7 +38,7 @@
   <div id="location-history"></div>
   <script>
     alert("Start location tracking?");
-    var map = L.map('map').setView([28.7041, 77.1025], 10);
+    var map = L.map('map').setView([28.7041, 77.1025], 20);
 
     L.tileLayer(
       'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -73,20 +73,22 @@
 
     function stopTracking() {
       if (tracking !== null) {
-        tracking = null;
         clearInterval(tracking);
+        tracking = null;
         alert("Location tracking stopped");
-        var locationHistory = document.getElementById("location-history");
+        var locationHistoryElement = document.getElementById("location-history");
         var heading = document.createElement("h1");
         heading.innerText = "Location Trail";
         var list = document.createElement("ul");
-        for (location in locationHistory) {
-          item = document.createElement("li");
-          item.innerText = location;
-          list.appendChild(item);
+        if (locationHistory.length > 0) {
+          for (let locationPoint of locationHistory) {
+            let item = document.createElement("li");
+            item.innerText = locationPoint;
+            list.appendChild(item);
+          }
+          locationHistoryElement.appendChild(heading);
+          locationHistoryElement.appendChild(list);
         }
-        locationHistory.appendChild(heading);
-        locationHistory.appendChild(list);
       }
     }
 
