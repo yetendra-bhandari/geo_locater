@@ -38,7 +38,7 @@
   <div id="location-history"></div>
   <script>
     alert("Start location tracking?");
-    var map = L.map('map').setView([28.7041, 77.1025], 20);
+    let map = L.map('map').setView([28.7041, 77.1025], 20);
 
     L.tileLayer(
       'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -50,21 +50,21 @@
         tileSize: 512,
         zoomOffset: -1
       }).addTo(map);
-    var locationNumber = 1;
-    var tracking = null;
-    var locationHistory = [];
+    let locationNumber = 1;
+    let tracking = null;
+    let locationHistory = [];
 
     function onLocationFound(e) {
       // Call the function after every 5 seconds(5000 miliseconds).
       tracking = setInterval(function () {
         locationHistory.push("Location #" + locationNumber + " => " + "Latitude: " + e.latlng.lat +
           ", Longitude: " +
-          e.latlng.lng);
+          e.latlng.lng + " at " + Date());
         L.marker(e.latlng).addTo(map)
           .bindPopup("Location #" + locationNumber++).openPopup();
         e.latlng.lat += 0.0002;
         e.latlng.lng += 0.0002;
-      }, 2000);
+      }, 5000);
     }
 
     function onLocationError(e) {
@@ -76,10 +76,10 @@
         clearInterval(tracking);
         tracking = null;
         alert("Location tracking stopped");
-        var locationHistoryElement = document.getElementById("location-history");
-        var heading = document.createElement("h1");
+        let locationHistoryElement = document.getElementById("location-history");
+        let heading = document.createElement("h1");
         heading.innerText = "Location Trail";
-        var list = document.createElement("ul");
+        let list = document.createElement("ul");
         if (locationHistory.length > 0) {
           for (let locationPoint of locationHistory) {
             let item = document.createElement("li");
