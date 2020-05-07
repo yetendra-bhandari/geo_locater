@@ -57,14 +57,13 @@
     function onLocationFound(e) {
       // Call the function after every 5 seconds(5000 miliseconds).
       tracking = setInterval(function () {
-        locationHistory.push("Location #" + locationNumber + " => " + "Latitude: " + e.latlng.lat +
-          ", Longitude: " +
-          e.latlng.lng + " at " + Date());
+        locationHistory.push("Location #" + locationNumber + " => " + "Latitude: " + Number(e.latlng.lat)
+          .toPrecision(6) + ", Longitude: " + Number(e.latlng.lng).toPrecision(6) + " at " + Date());
         L.marker(e.latlng).addTo(map)
           .bindPopup("Location #" + locationNumber++).openPopup();
         e.latlng.lat += 0.0002;
         e.latlng.lng += 0.0002;
-      }, 5000);
+      }, 2000);
     }
 
     function onLocationError(e) {
@@ -81,11 +80,11 @@
         heading.innerText = "Location Trail";
         let list = document.createElement("ul");
         if (locationHistory.length > 0) {
-          for (let locationPoint of locationHistory) {
+          locationHistory.forEach(locationPoint => {
             let item = document.createElement("li");
             item.innerText = locationPoint;
             list.appendChild(item);
-          }
+          });
           locationHistoryElement.appendChild(heading);
           locationHistoryElement.appendChild(list);
         }
